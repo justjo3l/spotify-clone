@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 import useSpotify from "../hooks/useSpotify";
 import useSongInfo from "../hooks/useSongInfo";
-import { HeartIcon, VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline";
+import { VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline";
 import { FastForwardIcon, PauseIcon, PlayIcon, ReplyIcon, RewindIcon, VolumeUpIcon, SwitchHorizontalIcon } from "@heroicons/react/solid";
 import { debounce } from "lodash";
 
@@ -29,6 +29,7 @@ function Player() {
             });
         }
     };
+    
 
     const handlePlayPause = () => {
         spotifyApi.getMyCurrentPlaybackState().then((data:any) => {
@@ -74,16 +75,23 @@ function Player() {
         </div>
 
         {/* Center */}
-        <div className="flex items-center justify-evenly">
-            <SwitchHorizontalIcon className="playerButton" />
-            <RewindIcon className="playerButton" /*onClick = {() => spotifyApi.skipToPrevious()}*//>
+        <div className="grid grid-rows-2">
+            <div className="flex items-center justify-evenly">
+                <SwitchHorizontalIcon className="playerButton" />
+                <RewindIcon className="playerButton" /*onClick = {() => spotifyApi.skipToPrevious()}*/ />
 
-            {isPlaying 
-            ? ( <PauseIcon className="playerButton w-10 h-10" onClick={handlePlayPause}/>) 
-            : ( <PlayIcon className="playerButton w-10 h-10" onClick={handlePlayPause}/>)}
+                {isPlaying 
+                ? ( <PauseIcon className="playerButton w-10 h-10" onClick={handlePlayPause}/>) 
+                : ( <PlayIcon className="playerButton w-10 h-10" onClick={handlePlayPause}/>)}
 
-            <FastForwardIcon className="playerButton" /*onClick = {() => spotifyApi.skipToNext()}*//>
-            <ReplyIcon className="playerButton" />
+                <FastForwardIcon className="playerButton" /*onClick = {() => spotifyApi.skipToNext()}*/ />
+                <ReplyIcon className="playerButton" />
+            </div>
+            <div className="flex items-center justify-evenly">
+                {}
+                <input className="w-80" type="range" value={100} disabled/>
+                {}
+            </div>
         </div>
 
         {/* Right */}

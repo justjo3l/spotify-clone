@@ -1,22 +1,31 @@
+import { time } from "console";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
+import { currentTrackIdState, isPlayingState, nextTrackIdState } from "../atoms/songAtom";
 import useSpotify from "../hooks/useSpotify";
 import { millisToMinutesAndSeconds } from "../lib/time";
 
-function Song({ order, track }: { order:any, track:any }) {
+function Song({ order, track, playlist }: { order:any, track:any, playlist:any }) {
 
     const spotifyApi = useSpotify();
 
     const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
+    const [nextTrackId, setNextTrackId] = useRecoilState(nextTrackIdState);
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-
     const playSong = () => {
         setCurrentTrackId(track.track.id);
+        let playlistItems = [];
+        for (var i = 0; i < playlist.tracks.items.length; i++) {
+            playlistItems.push(playlist.tracks.items[i].track.id);
+        }
+        console.log(playlistItems[playlistItems.indexOf(track.track.id) + 1]);
+        setNextTrackId(playlistItems[playlistItems.indexOf(track.track.id) + 1]);
         setIsPlaying(true);
         spotifyApi.play({
             uris: [track.track.uri],
         });
     }
+    
 
   return (
     <div className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer" onClick={playSong}>

@@ -5,6 +5,11 @@ export const currentTrackIdState = atom({
     default: null,
 });
 
+export const nextTrackIdState = atom({
+    key: "nextTrackIdState",
+    default: null,
+});
+
 export const isPlayingState = atom({
     key: "isPlayingState",
     default: false,
